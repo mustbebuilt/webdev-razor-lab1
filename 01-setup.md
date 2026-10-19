@@ -9,6 +9,7 @@ This quick start guide sets up a web application using the ASP.NET Core **Razor 
 - Add static files to the `wwwroot` folder.
 - Add dynamic Razor Pages with C# code-behind `PageModel` classes.
 - Pass data between `PageModel` handlers and Razor view templates.
+- Load external JSON data into strongly-typed models to complete the staff directory.
 
 ---
 

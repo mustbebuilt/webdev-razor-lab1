@@ -154,5 +154,5 @@ public class TempDataDemoModel : PageModel
 
 ---
 
-| [⬅️ Previous: 04 - Razor Expressions](04-razor-expressions.md) | [🏠 Lab Overview](readme.md) |
-|:--- | ---:|
+| [⬅️ Previous: 04 - Razor Expressions](04-razor-expressions.md) | [🏠 Lab Overview](readme.md) | [Next: 06 - Loading JSON Data (Final Step) ➡️](06-json-to-view.md) |
+|:--- |:---:| ---:|
