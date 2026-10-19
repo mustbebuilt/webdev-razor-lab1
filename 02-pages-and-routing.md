@@ -87,7 +87,7 @@ You can view the HTTP method in the browser's developer tools. For example, if y
 
 Most web applications will require the ability to process more than one HTTP method. For example, a web application may need to process both GET and POST requests. In Razor Pages, this is done by creating handler methods for each HTTP method. The most common handler methods are `OnGet()`, `OnPost()`, and `OnDelete()`. Other handler methods include `OnPut()`, `OnHead()`, and `OnOptions()`. These methods are all part of the `IPageModel` interface. 
 
-`OnGet()` is the most common handler method and is executed when a user navigates to a Razor Page using an HTTP GET request. `OnPost()` is executed when a user submits a form to a Razor Page using an HTTP POST request. A more detailed explanation of HTTP methods can be found on the W3Schools website [^1].
+`OnGet()` is the most common handler method and is executed when a user navigates to a Razor Page using an HTTP GET request. `OnPost()` is executed when a user submits a form to a Razor Page using an HTTP POST request. A more detailed explanation of HTTP methods can be found on this sister project [https://github.com/mustbebuilt/webdev-razor-http-methods](https://github.com/mustbebuilt/webdev-razor-http-methods).
 
 For example, `OnGet()` is used to display a form and `OnPost()` is used to process the form data.
 
