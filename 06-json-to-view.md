@@ -4,6 +4,18 @@ In this final part of the tutorial, we bring together all the core concepts we h
 
 In the previous step ([05 - Passing Data to Views](05-data-to-views.md)), we learned how data flows from a `PageModel` to a Razor view using in-memory properties. To complete our application, we will now load and deserialize the external staff dataset provided in `resources/data/staff.json` and display it in the `/Staff` view.
 
+> [!NOTE]
+> A JSON (JavaScript Object Notation) file is a lightweight data-interchange format. It is easy for humans to read and write, and easy for machines to parse and generate. It is a text-based format that is completely language independent, but uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C#, Java, JavaScript, Perl, Python, and many others.  In stores information in `key: value` pairs, where the key is a string and the value can be a string, number, boolean, array, or another object.  For example:
+
+```json
+{
+  "name": "John Doe",
+  "age": 30,
+  "isStudent": false,
+  "courses": ["Math", "Science"]
+}
+```
+
 ---
 
 ## What We Will Complete
@@ -30,9 +42,7 @@ From your terminal inside the `MyRazorApp` project root:
    ```
 
 2. Copy the sample `staff.json` file from `resources/data`:
-   ```bash
-   cp ../resources/data/staff.json data/
-   ```
+
 
 3. Confirm the file exists at `data/staff.json`. It contains a collection of 15 staff members with fields including `id`, `name`, `email`, `role`, `department`, `status`, `phone`, `office`, and `bio`.
 

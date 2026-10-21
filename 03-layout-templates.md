@@ -25,11 +25,20 @@ Global namespaces and Razor Tag Helpers are imported in `Pages/_ViewImports.csht
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 ```
 
+> [!NOTE]
+> **What is a Namespace?**  
+> In C# and .NET, a **namespace** organizes related code into logical containers—similar to how folders organize files on your computer. They also prevent naming collisions if different libraries use the same class names.  
+> 
+> In Razor Pages:
+> - The `@namespace MyRazorApp.Pages` directive in `_ViewImports.cshtml` sets the root namespace for all Razor views in the `Pages/` directory.
+> - Views in nested folders automatically follow this hierarchy (for example, views in `Pages/Staff/` belong to `MyRazorApp.Pages.Staff`).
+> - This global declaration allows your Razor views to automatically connect with their corresponding code-behind `PageModel` classes without requiring repetitive `@using` statements on every page.
+
 ---
 
 ## Simplified Layout Structure
 
-A minimal layout shell in `Pages/Shared/_Layout.cshtml`:
+Replace the existing code in `Pages/Shared/_Layout.cshtml` with the following:
 
 ```cshtml
 <!DOCTYPE html>
@@ -85,7 +94,13 @@ In the above example, we used `href` attributes to navigate between pages. The `
 
 ## Managing Static Files and CSS
 
-We have refered to dynamic pages and Razor code above. However, we also need to consider how to include other resources, such as images and stylesheets. These are often referred to as static files. Static files are files that are served directly to the client without any processing. These include HTML, CSS, JavaScript, and image files. 
+We have refered to dynamic pages and Razor code above. However, we also need to consider how to include other resources, such as images and stylesheets. These are often referred to as static files. Static files are files that are served directly to the client without any processing. These include HTML, CSS, JavaScript, and image files.
+
+> [!NOTE]
+> The use of static files is controlled by the `MapStaticFiles()` method in `Program.cs`.
+> By default, the `wwwroot` folder is the only directory where static files are served. If you want to serve static files from a different directory, you can use the `MapStaticFiles()` method to specify a different directory.
+
+Remove any existing CSS, Javascript and Image files from the `wwwroot` directory, for example you will note that there is already a `css` directory and a `js` directory. These will not be used in this exercise. In a real application you would have your own CSS, Javascript and Image files. You should also delete the `wwwroot/js/site.js` file if it exists.
 
 ### 1. Global Stylesheets (`wwwroot/css/`)
 
@@ -106,7 +121,7 @@ Copy the provided CSS file `site.css` from the `resources` folder and place it i
 
 If you want to style a page in isolation, you can use CSS Isolation. This allows styles to be scoped strictly to a single Razor Page without affecting other pages.
 
-During compilation, ASP.NET Core automatically bundles scoped styles into `[ProjectName].styles.css` (e.g. `MyMvcApp.styles.css`) and attaches unique scope attributes (e.g. `b-1234567890`) to matching elements.
+During compilation, ASP.NET Core automatically bundles scoped styles into `[ProjectName].styles.css` (e.g. `MyRazorApp.styles.css`) and attaches unique scope attributes (e.g. `b-1234567890`) to matching elements.
 
 ---
 
