@@ -2,7 +2,7 @@
 
 In this final part of the tutorial, we bring together all the core concepts we have covered across the lab—project structure, routing, shared layouts, Razor syntax, and `PageModel` properties—to build a dynamic, data-driven **Staff Directory** page.
 
-In the previous step ([05 - Passing Data to Views](05-data-to-views.md)), we learned how data flows from a `PageModel` to a Razor view using in-memory properties. To complete our application, we will now load and deserialize the external staff dataset provided in `resources/data/staff.json` and display it in the `/Staff` view.
+In the previous step ([05 - Passing Data to Views](05-data-to-views.md)), we learned how data flows from a `PageModel` to a Razor view using in-memory properties. To complete our application, we will now load and deserialise the external staff dataset provided in `resources/data/staff.json` and display it in the `/Staff` view.
 
 > [!NOTE]
 > A JSON (JavaScript Object Notation) file is a lightweight data-interchange format. It is easy for humans to read and write, and easy for machines to parse and generate. It is a text-based format that is completely language independent, but uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C#, Java, JavaScript, Perl, Python, and many others.  In stores information in `key: value` pairs, where the key is a string and the value can be a string, number, boolean, array, or another object.  For example:
@@ -24,7 +24,7 @@ To complete the application, we will:
 
 1. Copy the provided `staff.json` dataset into our application's `data/` folder.
 2. Create a strongly-typed C# model (`StaffMember`) matching the JSON structure.
-3. Update `Pages/Staff/Index.cshtml.cs` (first created in [02 - Pages & Routing](02-pages-and-routing.md)) to inject `IWebHostEnvironment` and asynchronously deserialize the JSON file into a `List<StaffMember>`.
+3. Update `Pages/Staff/Index.cshtml.cs` (first created in [02 - Pages & Routing](02-pages-and-routing.md)) to inject `IWebHostEnvironment` and asynchronously deserialise the JSON file into a `List<StaffMember>`.
 4. Update `Pages/Staff/Index.cshtml` to render a responsive table and dynamic status badges using the styles from `site.css`.
 5. Run, test, and verify the completed Razor Pages application.
 
@@ -80,11 +80,11 @@ public class StaffMember
 ```
 
 > [!TIP]
-> Initializing string properties with `= string.Empty;` prevents nullable reference warnings in modern C# and ensures your model properties are never unexpectedly `null`.
+> Initialising string properties with `= string.Empty;` prevents nullable reference warnings in modern C# and ensures your model properties are never unexpectedly `null`.
 
 ---
 
-## Step 3: Load and Deserialize JSON in `Pages/Staff/Index.cshtml.cs`
+## Step 3: Load and Deserialise JSON in `Pages/Staff/Index.cshtml.cs`
 
 In [02 - Pages & Routing](02-pages-and-routing.md), we created a minimal `Pages/Staff/Index.cshtml.cs` file with an empty `OnGet()` handler. We will now update this code-behind file to load our staff data.
 
@@ -233,12 +233,12 @@ Here is a recap of the key skills and patterns you have mastered across this lab
 
 | Lab Part | Key Concepts Mastered |
 |---|---|
-| **[01 - Setup & Quick Start](01-setup.md)** | Initializing a Razor Pages project with `dotnet new razor`, setting up Git version control, and configuring `.gitignore`. |
+| **[01 - Setup & Quick Start](01-setup.md)** | Initialising a Razor Pages project with `dotnet new razor`, setting up Git version control, and configuring `.gitignore`. |
 | **[02 - Pages & Routing](02-pages-and-routing.md)** | Convention-based file routing, paired `.cshtml` / `.cshtml.cs` files, and handler methods (`OnGet`). |
 | **[03 - Layout Templates & Styling](03-layout-templates.md)** | Master layout pages (`_Layout.cshtml`), `RenderBody()`, `asp-page` Tag Helpers, and global CSS stylesheets. |
 | **[04 - Razor Expressions](04-razor-expressions.md)** | Transitioning between HTML and C# using `@`, rendering dynamic timestamps and server calculations. |
 | **[05 - Passing Data to Views](05-data-to-views.md)** | Strongly-typed `PageModel` properties, `ViewData` for metadata, and `TempData` for flash messages. |
-| **06 - Loading JSON Data (This Step)** | Dependency injection with `IWebHostEnvironment`, asynchronous file I/O with `System.Text.Json`, strongly-typed model deserialization, and dynamic table rendering. |
+| **06 - Loading JSON Data (This Step)** | Dependency injection with `IWebHostEnvironment`, asynchronous file I/O with `System.Text.Json`, strongly-typed model deserialisation, and dynamic table rendering. |
 
 You now have a solid foundation in building structured, styled, and data-driven server-rendered web applications with ASP.NET Core Razor Pages.
 

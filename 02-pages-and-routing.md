@@ -9,7 +9,7 @@ Instead of routing requests through central controllers, Razor Pages uses **Hand
 - `Page()`: Renders and returns the current Razor Page view.
 - `RedirectToPage()`: Redirects the browser to another Razor Page.
 - `NotFound()`: Returns a standard HTTP 404 response.
-- `Content()`: Returns plain text or serialized content directly.
+- `Content()`: Returns plain text or serialised content directly.
 
 ---
 
@@ -72,7 +72,7 @@ public class NewsModel : PageModel
 ```
 
 > [!IMPORTANT]
-> The `@page` directive **must** be the very first line in a `.cshtml` file for ASP.NET Core to recognize it as a Razor Page.
+> The `@page` directive **must** be the very first line in a `.cshtml` file for ASP.NET Core to recognise it as a Razor Page.
 
 > [!NOTE]
 > Notice the use of `ViewData["Title"] = "News";` within the `@{ ... }` block. This is a dictionary that is used to pass data between the `PageModel` and the Razor view template. You will see this pattern used throughout the application to share data between `PageModel` classes and their corresponding Razor view templates. 

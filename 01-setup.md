@@ -3,9 +3,9 @@
 This quick start guide sets up a web application using the ASP.NET Core **Razor Pages** template. The aim of this guide is to:
 
 - Create and configure a basic Razor Pages application (`MyRazorApp`).
-- Initialize a local Git repository with a `.gitignore` file and publish to GitHub.
+- Initialise a local Git repository with a `.gitignore` file and publish to GitHub.
 - Review the structure of a Razor Pages application (`Pages/`, `wwwroot/`, `Program.cs`).
-- Customize the Layout template and UI structure.
+- Customise the Layout template and UI structure.
 - Add static files to the `wwwroot` folder.
 - Add dynamic Razor Pages with C# code-behind `PageModel` classes.
 - Pass data between `PageModel` handlers and Razor view templates.
@@ -41,7 +41,7 @@ Tracking your application in version control using Git and GitHub from the outse
 > **Why is a `.gitignore` file essential in .NET?**  
 > When you build or run a .NET application, compilers generate temporary build artifacts and binaries (such as the `bin/` and `obj/` directories). These files should never be committed to version control. A `.gitignore` file specifies intentionally untracked files that Git should ignore, keeping your repository clean and lightweight.
 
-1. **Initialize a local Git repository:**  
+1. **Initialise a local Git repository:**  
    Ensure your terminal is located inside the `MyRazorApp` directory, then run:
    ```bash
    git init
@@ -82,7 +82,7 @@ To store your code remotely on GitHub:
 
 1. Log into your account on [GitHub](https://github.com) and create a **New repository** named `MyRazorApp`.
    > [!NOTE]
-   > Do **not** select "Add a README file", "Add .gitignore", or choose a license template, as you have already initialized your repository locally.
+   > Do **not** select "Add a README file", "Add .gitignore", or choose a license template, as you have already initialised your repository locally.
 
 2. Link your local repository to GitHub and push your `main` branch:
    ```bash

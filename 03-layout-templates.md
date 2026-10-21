@@ -27,7 +27,7 @@ Global namespaces and Razor Tag Helpers are imported in `Pages/_ViewImports.csht
 
 > [!NOTE]
 > **What is a Namespace?**  
-> In C# and .NET, a **namespace** organizes related code into logical containers—similar to how folders organize files on your computer. They also prevent naming collisions if different libraries use the same class names.  
+> In C# and .NET, a **namespace** organises related code into logical containers—similar to how folders organise files on your computer. They also prevent naming collisions if different libraries use the same class names.  
 > 
 > In Razor Pages:
 > - The `@namespace MyRazorApp.Pages` directive in `_ViewImports.cshtml` sets the root namespace for all Razor views in the `Pages/` directory.
