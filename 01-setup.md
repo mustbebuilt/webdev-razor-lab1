@@ -61,11 +61,13 @@ Tracking your application in version control using Git and GitHub from the outse
    ```
 
 3. **Add a `.gitignore` file:**  
-   A sample `.gitignore` file configured for .NET applications has been provided in the `resources/` folder. Copy it into the root of your `MyRazorApp` project:
-   ```bash
-   cp ../resources/.gitignore .
-   ```
+   A sample `.gitignore` file configured for .NET applications has been provided in the `resources/` folder. Copy it into the root of your `MyRazorApp` project.
+
    *(Alternatively, you can generate a standard .NET gitignore file directly using the .NET CLI: `dotnet new gitignore`)*
+
+   ```bash
+   dotnet new gitignore
+   ```
 
 4. **Stage and commit your project files:**  
    Check the status of your files using `git status` (verify that `bin/` and `obj/` folders are ignored), then stage and commit:
