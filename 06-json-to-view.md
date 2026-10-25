@@ -244,5 +244,5 @@ You now have a solid foundation in building structured, styled, and data-driven 
 
 ---
 
-| [⬅️ Previous: 05 - Passing Data to Views](05-data-to-views.md) | [🏠 Lab Overview](readme.md) | ✅ **Lab Complete** |
+| [⬅️ Previous: 05 - Passing Data to Views](05-data-to-views.md) | [🏠 Lab Overview](readme.md) | [Next: 07 - Adding JavaScript ➡️](07-adding-javascript.md) |
 |:--- |:---:| ---:|

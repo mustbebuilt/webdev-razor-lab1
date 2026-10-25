@@ -35,7 +35,8 @@ This tutorial requires:
 3. [03 - Layout Templates & Styling](03-layout-templates.md)
 4. [04 - Razor Expressions](04-razor-expressions.md)
 5. [05 - Passing Data to Views](05-data-to-views.md)
-6. [06 - Loading JSON Data into Views (Final Step)](06-json-to-view.md)
+6. [06 - Loading JSON Data into Views](06-json-to-view.md)
+7. [07 - Adding JavaScript & Client-Side Interactivity](07-adding-javascript.md)
 
 ---
 
