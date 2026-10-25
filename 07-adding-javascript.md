@@ -2,21 +2,48 @@
 
 In previous steps of this lab, we focused on server-side rendering: generating HTML dynamically with Razor expressions, setting up shared layout templates, and loading data models into views.
 
-However, modern web applications also require client-side interactivity that responds instantly to user actions without triggering a full page reload. In this step, we will add client-side JavaScript to power a responsive, accessible mobile navigation menu (burger menu).
+However, modern web applications also require client-side interactivity that responds instantly to user actions without triggering a full page reload or round-trip to the web server. Common examples include interactive modal dialogs, tab switchers, client-side validation, and responsive mobile navigation (burger menus).
+
+---
+
+## Understanding Client-Side JavaScript in Razor Pages
+
+In ASP.NET Core, the web server executes C# code in `PageModel` classes and `.cshtml` views to generate an HTML document, which is then sent to the browser. Once the browser receives the HTML, client-side JavaScript takes over to manipulate the Document Object Model (DOM) and provide interactive behavior.
+
+Client-side JavaScript files are static assets and must be stored in the `wwwroot` directory:
+
+```text
+wwwroot/
+├── css/
+│   └── site.css        # Global and responsive styles
+└── js/
+    └── site.js         # Client-side JavaScript logic
+```
 
 > [!NOTE]
-> The CSS styles for the burger button, mobile drawer animations, and responsive breakpoints are already included in your `wwwroot/css/site.css` file. You only need to update the shared layout template and add the JavaScript file.
+> Static files located in `wwwroot/` are served directly by ASP.NET Core using the `app.MapStaticAssets()` or `app.UseStaticFiles()` middleware registered in `Program.cs`.
 
 ---
 
 ## Step 1: Update the Master Layout (`Pages/Shared/_Layout.cshtml`)
 
-We need to update `Pages/Shared/_Layout.cshtml` to:
-1. Reference our client-side script (`~/js/site.js`) inside the `<head>` using the `defer` attribute and `asp-append-version="true"`.
-2. Add the burger menu toggle button (`#burgerToggle`) and wrap the navigation links inside `#primaryNav`.
-3. Include accessible ARIA attributes (`aria-label`, `aria-controls`, and `aria-expanded`) for screen readers.
+To support a mobile navigation drawer, we need to update `Pages/Shared/_Layout.cshtml` with:
+1. A script reference in the document `<head>` using the `defer` attribute and ASP.NET Core's cache-busting Tag Helper `asp-append-version="true"`.
+2. A `.site-header` container that groups the site brand, a burger toggle button, and the primary navigation links.
+3. Accessible ARIA attributes (`aria-label`, `aria-controls`, and `aria-expanded`) so screen readers and assistive technologies can interpret the navigation state.
 
-Replace the contents of `Pages/Shared/_Layout.cshtml` with the following:
+### Why Load Scripts in the `<head>` with `defer`?
+
+Historically, web developers placed `<script>` tags at the very bottom of the `<body>` element to prevent script execution from blocking HTML parsing. 
+
+Modern web standards provide the `defer` attribute, which is recommended practice:
+- **Parallel Downloading**: The browser downloads the `.js` file in the background concurrently while continuing to parse the HTML document.
+- **Guaranteed DOM Availability**: Deferred scripts execute in order *after* HTML parsing has finished, immediately before the `DOMContentLoaded` event fires.
+- **Clean Separation**: Placing all external resource links (`<link rel="stylesheet">` and `<script defer>`) together inside `<head>` keeps the document head organized.
+
+### Revised `Pages/Shared/_Layout.cshtml`
+
+Replace the entire contents of `Pages/Shared/_Layout.cshtml` with the following code:
 
 ```cshtml
 <!DOCTYPE html>
@@ -59,113 +86,33 @@ Replace the contents of `Pages/Shared/_Layout.cshtml` with the following:
 </html>
 ```
 
-### Key Additions to `_Layout.cshtml`:
-- **`<script src="~/js/site.js" asp-append-version="true" defer></script>`**: Placed in the `<head>` with `defer` so the browser downloads it in parallel while parsing HTML, executing it immediately when the DOM is ready. `asp-append-version="true"` enables automatic cache busting.
-- **`<button id="burgerToggle" ... aria-expanded="false">`**: The toggle button with three lines that animate into an "X" when clicked. The `aria-expanded` attribute communicates whether the navigation drawer is currently open or collapsed.
-- **`<nav id="primaryNav" class="nav-menu">`**: The navigation container targeted by both the CSS responsive rules and the JavaScript click handler.
+### Key Elements of the Revised Structure:
+
+- **`<script src="~/js/site.js" asp-append-version="true" defer></script>`**: Loads our client-side script from `wwwroot/js/site.js`. The `asp-append-version="true"` attribute appends a SHA256 cache-busting query parameter (e.g., `?v=vfbwnp9r4j`) whenever the file changes.
+- **`<button id="burgerToggle" class="burger-btn">`**: An accessible button containing three `<span>` bars that animate into an 'X' icon when active.
+- **`aria-controls="primaryNav"` and `aria-expanded="false"`**: Informs assistive technologies which navigation element the button toggles and whether it is currently open or collapsed.
+- **`<nav id="primaryNav" class="nav-menu" aria-label="Main navigation">`**: Groups the navigation links under a labeled landmark.
 
 ---
 
-## Step 2: Add and Understand `wwwroot/js/site.js`
+## Step 2: Add the Client-Side Script (`wwwroot/js/site.js`)
 
-1. Create the `wwwroot/js/` directory if it does not already exist:
-   ```bash
-   mkdir -p wwwroot/js
-   ```
+Copy the `site.js` javascript file from the resources folder into your project, in the `wwwroot/js/` folder.
 
-2. Copy `site.js` from `resources/wwwroot/js/site.js` to `wwwroot/js/site.js` (or create the file directly):
-   ```bash
-   cp resources/wwwroot/js/site.js wwwroot/js/site.js
-   ```
+This file provides the logic for the mobile burger menu.  In achieves the interaction by manipulating the DOM, and adding/removing CSS classes to the menu and button elements.
 
-### Code Explanation: `wwwroot/js/site.js`
+The CSS for the mobile burger menu is already defined in `site.css`, in the `wwwroot/css/` folder.
 
-Here is the JavaScript code powering the mobile menu:
+When in mobile view (screen width less than 768px), the burger button is visible and the navigation menu is hidden.  
 
-```javascript
-/**
- * Responsive Mobile Navigation (Burger Menu)
- * Loaded with 'defer' in <head> - executes after DOM tree is parsed.
- */
-const burgerToggle = document.getElementById('burgerToggle');
-const primaryNav = document.getElementById('primaryNav');
+When the viewport is 768px or wider (desktop/tablet), the following styles are applied:
+- The burger button (`.burger-btn`) is hidden.
+- The navigation menu (`.nav-menu`) is forced to display as a block element, overriding any mobile-specific display rules.
+- The navigation list (`.nav-menu ul`) is converted from a vertical stack to a horizontal row.
 
-if (burgerToggle && primaryNav) {
-  function toggleMenu(isOpen) {
-    const shouldOpen = isOpen !== undefined ? isOpen : !primaryNav.classList.contains('is-open');
-    primaryNav.classList.toggle('is-open', shouldOpen);
-    burgerToggle.classList.toggle('is-active', shouldOpen);
-    burgerToggle.setAttribute('aria-expanded', String(shouldOpen));
-  }
+When the viewport is narrower than 768px (mobile), the base styles apply, showing the burger button and hiding the navigation menu by default.
 
-  // Toggle open/close on button click
-  burgerToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMenu();
-  });
-
-  // Close menu when a navigation link is clicked
-  primaryNav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      if (primaryNav.classList.contains('is-open')) {
-        toggleMenu(false);
-      }
-    });
-  });
-
-  // Close menu when clicking outside
-  document.addEventListener('click', (e) => {
-    if (primaryNav.classList.contains('is-open') &&
-        !primaryNav.contains(e.target) &&
-        !burgerToggle.contains(e.target)) {
-      toggleMenu(false);
-    }
-  });
-
-  // Close menu with Escape key and return focus to burger button
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && primaryNav.classList.contains('is-open')) {
-      toggleMenu(false);
-      burgerToggle.focus();
-    }
-  });
-
-  // Reset menu state when viewport expands to desktop size
-  window.addEventListener('resize', () => {
-    if (window.innerWidth >= 768 && primaryNav.classList.contains('is-open')) {
-      toggleMenu(false);
-    }
-  });
-}
-```
-
-### How the Script Works:
-
-- **Targeting Elements**: Locates `#burgerToggle` and `#primaryNav` by their IDs. Because the script uses `defer`, the elements are guaranteed to exist without needing a `DOMContentLoaded` wrapper.
-- **State Toggling (`toggleMenu`)**: Toggles the `.is-open` CSS class on the navigation drawer, the `.is-active` class on the burger button (which transforms the lines into an "X"), and updates `aria-expanded` to `"true"` or `"false"`.
-- **Button Click**: Toggles the menu open or closed when the user taps or clicks the burger button.
-- **Link Click**: Closes the menu automatically when a navigation link is clicked so mobile users see their selected page right away.
-- **Dismiss on Outside Click**: Closes the menu if a user clicks anywhere outside the navigation drawer and toggle button.
-- **Keyboard Accessibility (<kbd>Escape</kbd>)**: Closes the open menu and restores keyboard focus to `#burgerToggle` when the user presses <kbd>Escape</kbd>.
-- **Responsive Reset**: Automatically closes the mobile menu if the browser window is resized to desktop width (768px or wider).
-
----
-
-## Step 3: Run and Test the Application
-
-Start your development server:
-
-```bash
-dotnet watch run
-```
-
-1. Open your browser and navigate to `http://localhost:<port>/`.
-2. Open Developer Tools (<kbd>F12</kbd> or <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd>) and toggle Device Mode to a mobile viewport (< 768px).
-3. **Test the Burger Menu**:
-   - Click the burger button: the three bars animate into an "X" and the navigation menu slides down.
-   - Click outside the menu or press <kbd>Escape</kbd>: the menu closes smoothly.
-   - Click a link: the menu collapses and navigates to the selected page.
-4. Resize back to desktop width (> 768px) and verify that the standard horizontal navigation bar appears.
+The Javascript toggles the `is-open` class on the navigation menu, and the `is-active` class on the burger button, when the burger button is clicked.  When these CSS classes are added to the elements, the CSS styles defined in `site.css` are applied to the elements.
 
 ---
 
@@ -183,7 +130,7 @@ Here is a final recap of the key skills and patterns mastered across this lab:
 | **[04 - Razor Expressions](04-razor-expressions.md)** | Transitioning between HTML and C# using `@`, rendering dynamic timestamps and server calculations. |
 | **[05 - Passing Data to Views](05-data-to-views.md)** | Strongly-typed `PageModel` properties, `ViewData` for metadata, and dynamic dropdown controls. |
 | **[06 - Loading JSON Data](06-json-to-view.md)** | Dependency injection with `IWebHostEnvironment`, asynchronous file I/O with `System.Text.Json`, strongly-typed model deserialisation, and dynamic table rendering. |
-| **07 - Adding JavaScript (This Step)** | Client-side DOM interactivity in Razor Pages, deferred script execution in `<head>`, accessible ARIA mobile navigation, and event handling. |
+| **07 - Adding JavaScript (This Step)** | Client-side DOM interactivity in Razor Pages, deferred script execution in `<head>`, accessible ARIA mobile navigation, and mobile-first CSS transitions. |
 
 You now have a production-ready foundation in building structured, styled, dynamic, and interactive server-rendered web applications with ASP.NET Core Razor Pages.
 
