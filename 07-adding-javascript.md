@@ -99,7 +99,7 @@ Replace the entire contents of `Pages/Shared/_Layout.cshtml` with the following 
 
 Copy the `site.js` javascript file from the resources folder into your project, in the `wwwroot/js/` folder.
 
-This file provides the logic for the mobile burger menu.  In achieves the interaction by manipulating the DOM, and adding/removing CSS classes to the menu and button elements.
+This file provides the logic for the mobile burger menu.  It achieves the interaction by manipulating the DOM, and adding/removing CSS classes to the menu and button elements.
 
 The CSS for the mobile burger menu is already defined in `site.css`, in the `wwwroot/css/` folder.
 
